@@ -3,7 +3,8 @@
 # DrafTeam VPS Deployment Script
 # This script automates the deployment of DrafTeam on a Contabo VPS
 
-set -e  # Exit on any error
+# set -e  # Exit on any error - disabled for debugging
+set -x  # Enable debug mode to show commands being executed
 
 # Colors for output
 RED='\033[0;31m'
@@ -314,34 +315,82 @@ main() {
     log_info "Starting DrafTeam VPS deployment..."
     
     # Prompt for configuration if not set
+    log_info "Checking configuration..."
     if [ "$DOMAIN" = "your-domain.com" ]; then
+        log_info "Domain not configured, prompting user..."
         read -p "Enter your domain name: " DOMAIN
+        log_info "Domain set to: $DOMAIN"
     fi
     
     if [ "$EMAIL" = "your-email@domain.com" ]; then
+        log_info "Email not configured, prompting user..."
         read -p "Enter your email for SSL certificates: " EMAIL
+        log_info "Email set to: $EMAIL"
     fi
     
-    if [ "$GIT_REPO" = "https://github.com/yourusername/drafteam.git" ]; then
+    if [ "$GIT_REPO" = "https://github.com/danish0440/drafteam.git" ]; then
+        log_info "Git repo already configured: $GIT_REPO"
+    else
+        log_info "Git repo not configured, prompting user..."
         read -p "Enter your Git repository URL: " GIT_REPO
+        log_info "Git repo set to: $GIT_REPO"
     fi
     
-    # Run deployment steps
+    # Execute deployment steps
+    log_info "Starting deployment steps..."
+    
+    log_info "Step 1: Checking root privileges..."
     check_root
+    log_success "Root check passed"
+    
+    log_info "Step 2: Updating system..."
     update_system
+    log_success "System update completed"
+    
+    log_info "Step 3: Installing Docker..."
     install_docker
+    log_success "Docker installation completed"
+    
+    log_info "Step 4: Installing Certbot..."
     install_certbot
+    log_success "Certbot installation completed"
+    
+    log_info "Step 5: Setting up firewall..."
     setup_firewall
+    log_success "Firewall setup completed"
+    
+    log_info "Step 6: Cloning repository..."
     clone_repository
+    log_success "Repository cloning completed"
+    
+    log_info "Step 7: Setting up environment..."
     setup_environment
+    log_success "Environment setup completed"
+    
+    log_info "Step 8: Generating SSL certificates..."
     generate_ssl_certificates
-    setup_auto_renewal
+    log_success "SSL certificates generated"
+    
+    log_info "Step 9: Setting up SSL auto-renewal..."
+    setup_ssl_auto_renewal
+    log_success "SSL auto-renewal setup completed"
+    
+    log_info "Step 10: Deploying application..."
     deploy_application
+    log_success "Application deployment completed"
+    
+    log_info "Step 11: Setting up monitoring..."
     setup_monitoring
-    run_health_check
+    log_success "Monitoring setup completed"
+    
+    log_info "Step 12: Running health checks..."
+    run_health_checks
+    log_success "Health checks completed"
+    
+    log_info "Step 13: Printing summary..."
     print_summary
     
-    log_success "Deployment completed successfully!"
+    log_success "DrafTeam deployment completed successfully!"
 }
 
 # Run main function
