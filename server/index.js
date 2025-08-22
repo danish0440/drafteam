@@ -70,8 +70,38 @@ const upload = multer({
 // Serve uploaded files
 app.use('/uploads', express.static(uploadsDir))
 
-// Database setup
-const db = new sqlite3.Database(path.join(dbDir, 'drafttracker.db'))
+// Database setup with corruption handling
+const dbPath = path.join(dbDir, 'drafttracker.db')
+
+// Remove corrupted database if it exists
+if (fs.existsSync(dbPath)) {
+  try {
+    // Test if database is accessible
+    const testDb = new sqlite3.Database(dbPath)
+    testDb.close()
+  } catch (error) {
+    console.log('Corrupted database detected, removing...', error.message)
+    fs.unlinkSync(dbPath)
+  }
+}
+
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error('Database connection error:', err.message)
+    // If database is corrupted, remove it and try again
+    if (err.code === 'SQLITE_CORRUPT') {
+      console.log('Removing corrupted database and recreating...')
+      if (fs.existsSync(dbPath)) {
+        fs.unlinkSync(dbPath)
+      }
+      // Create new database
+      const newDb = new sqlite3.Database(dbPath)
+      return newDb
+    }
+  } else {
+    console.log('Connected to SQLite database successfully')
+  }
+})
 
 // Initialize database tables
 db.serialize(() => {
