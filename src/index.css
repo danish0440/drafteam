@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  body {
+    @apply bg-gray-50 text-gray-900;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
+  }
+  
+  .card-header {
+    @apply flex items-center justify-between mb-4;
+  }
+  
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700 px-4 py-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary-100 text-secondary-900 hover:bg-secondary-200 px-4 py-2;
+  }
+  
+  .btn-success {
+    @apply bg-success-600 text-white hover:bg-success-700 px-4 py-2;
+  }
+  
+  .btn-warning {
+    @apply bg-warning-500 text-white hover:bg-warning-600 px-4 py-2;
+  }
+  
+  .btn-danger {
+    @apply bg-danger-600 text-white hover:bg-danger-700 px-4 py-2;
+  }
+  
+  .progress-bar {
+    @apply w-full bg-gray-200 rounded-full h-2.5;
+  }
+  
+  .progress-fill {
+    @apply h-2.5 rounded-full transition-all duration-300 ease-in-out;
+  }
+  
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .status-not-started {
+    @apply bg-gray-100 text-gray-800;
+  }
+  
+  .status-in-progress {
+    @apply bg-warning-100 text-warning-800;
+  }
+  
+  .status-completed {
+    @apply bg-success-100 text-success-800;
+  }
+  
+  .sidebar {
+    @apply fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 z-40;
+  }
+  
+  .main-content {
+    @apply ml-64 min-h-screen bg-gray-50;
+  }
+  
+  .navbar {
+    @apply bg-white border-b border-gray-200 px-6 py-4;
+  }
+  
+  .metric-card {
+    @apply bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl p-6 shadow-lg;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Custom animations */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}

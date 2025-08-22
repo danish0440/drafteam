@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # Frontend React Application (Development)
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build  # Use build stage for development
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:3001
+    command: npm run dev
+    depends_on:
+      - backend
+    networks:
+      - drafteam-network
+    restart: unless-stopped
+
+  # Backend Node.js API Server (Development)
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+      - backend-uploads:/app/uploads
+      - backend-database:/app/database
+    environment:
+      - NODE_ENV=development
+      - DB_PATH=/app/database/drafttracker.db
+      - UPLOAD_DIR=/app/uploads
+    command: npm run dev
+    networks:
+      - drafteam-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Database viewer (Development only)
+  db-viewer:
+    image: coleifer/sqlite-web
+    ports:
+      - "8080:8080"
+    volumes:
+      - backend-database:/data
+    environment:
+      - SQLITE_DATABASE=/data/drafttracker.db
+    networks:
+      - drafteam-network
+    restart: unless-stopped
+    profiles:
+      - debug
+
+volumes:
+  backend-uploads:
+    driver: local
+  backend-database:
+    driver: local
+
+networks:
+  drafteam-network:
+    driver: bridge

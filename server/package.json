@@ -1,0 +1,28 @@
+{
+  "name": "drafteam-server",
+  "version": "1.0.0",
+  "description": "Backend server for DrafTeam",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.7.0",
+    "helmet": "^6.1.5",
+    "jsonwebtoken": "^9.0.0",
+    "jspdf": "^3.0.1",
+    "multer": "^2.0.2",
+    "pdf-lib": "^1.17.1",
+    "pdf2pic": "^3.2.0",
+    "sqlite3": "^5.1.6",
+    "tesseract.js": "^6.0.1",
+    "typo-js": "^1.3.1",
+    "uuid": "^11.1.0"
+  }
+}
