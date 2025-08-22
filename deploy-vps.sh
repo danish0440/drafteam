@@ -17,7 +17,7 @@ APP_NAME="drafteam"
 APP_DIR="/opt/$APP_NAME"
 DOMAIN="your-domain.com"
 EMAIL="your-email@domain.com"
-GIT_REPO="https://github.com/yourusername/drafteam.git"
+GIT_REPO="https://github.com/danish0440/drafteam.git"
 
 # Functions
 log_info() {
