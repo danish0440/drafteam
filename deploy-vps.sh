@@ -15,9 +15,9 @@ NC='\033[0m' # No Color
 
 # Configuration
 APP_NAME="drafteam"
-APP_DIR="/opt/$APP_NAME"
-DOMAIN="your-domain.com"
-EMAIL="your-email@domain.com"
+APP_DIR="/opt/drafteam"
+DOMAIN="drafteam.space"
+EMAIL="danish98syahmi@gmail.com"
 GIT_REPO="https://github.com/danish0440/drafteam.git"
 
 # Functions
